@@ -1,8 +1,6 @@
 services:
   php-fpm:
     image: php:8.1-fpm
-    volumes:
-      - ./app:/symfony
     container_name: symfonyProject-php-fpm
     depends_on:
       - mysql
@@ -10,19 +8,17 @@ services:
   php-cli:
     build:
       context: .
-      dockerfile: Dockerfile.php-cli
+      dockerfile: docker/Dockerfile.php-cli
     volumes:
-      - ./app:/symfony
-    command: php -S 0.0.0.0:8000 -t /symfony/public
+      - ./:/app
+    working_dir: /app
+    command: php -S 0.0.0.0:8000 -t ./public
     container_name: symfonyProject-php-cli
     ports:
       - "8080:8000"
  
   composer:
     image: composer:2
-    volumes:
-      - ./app:/app
-    working_dir: /app
     container_name: symfonyProject-composer
     command: [require, twig, --ignore-platform-reqs]
 
