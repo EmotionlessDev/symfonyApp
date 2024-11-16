@@ -1,0 +1,46 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello ProfileController!{% endblock %}
+
+{% block body %}
+<style>
+    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
+    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
+</style>
+
+<div class="example-wrapper">
+    <!-- count quantity  -->
+    {% set count = 0 %}
+    {% for portfolio in user.portfolios %}
+        {% for depositary in portfolio.depositaries %}
+            {% set count = count + depositary.quantity %}
+        {% endfor %}
+    {% endfor %}
+    <h1>
+        username: {{ user.username }} | 
+        user_id: {{ user.id }}
+    </h1>
+    <h1>
+    </h1>
+    <h1>
+        all portfolios: {{ user.portfolios|length }}
+    </h1>
+<h2>
+        total quantity: {{ count }}
+        </h2>
+
+    {% for portfolio in user.portfolios %}
+
+        <h2>
+            portfolio_id: {{ portfolio.id }} has {{ portfolio.balance}} 
+            and has stocks: 
+        </h2>
+                {% for depositary in portfolio.depositaries %}
+            <h3>
+             depositary_name: {{depositary.stock.name}} | quantity: {{depositary.quantity}}
+            </h3>
+             <br>
+        {% endfor %}
+    {% endfor %}
+</div>
+{% endblock %}

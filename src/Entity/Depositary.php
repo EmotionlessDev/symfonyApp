@@ -41,6 +41,11 @@ class Depositary
         return $this;
     }
 
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
+
     public function getPortfolio(): ?Portfolio
     {
         return $this->portfolio;
