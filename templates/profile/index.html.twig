@@ -3,30 +3,25 @@
 {% block title %}Hello ProfileController!{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
-
 <div class="example-wrapper">
     <!-- count quantity  -->
     {% set count = 0 %}
+    {% set sum = 0 %}
     {% for portfolio in user.portfolios %}
         {% for depositary in portfolio.depositaries %}
             {% set count = count + depositary.quantity %}
         {% endfor %}
+        {% set sum = sum + portfolio.balance %}
     {% endfor %}
     <h1>
-        username: {{ user.username }} | 
-        user_id: {{ user.id }}
-    </h1>
-    <h1>
+        username: {{ user.username }}
     </h1>
     <h1>
         all portfolios: {{ user.portfolios|length }}
     </h1>
 <h2>
         total quantity: {{ count }}
+        total balance: {{ sum }}
         </h2>
 
     {% for portfolio in user.portfolios %}
@@ -37,7 +32,7 @@
         </h2>
                 {% for depositary in portfolio.depositaries %}
             <h3>
-             depositary_name: {{depositary.stock.name}} | quantity: {{depositary.quantity}}
+             depositary_name: {{ depositary.stock.name }} | quantity: {{ depositary.quantity }}
             </h3>
              <br>
         {% endfor %}

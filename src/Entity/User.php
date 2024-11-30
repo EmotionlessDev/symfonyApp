@@ -63,6 +63,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
+    public function setCustomRoles(array $roles): static
+    {
+        if (in_array('ROLE_ADMIN', $this->roles)) {
+            $this->roles = $roles;
+        }
+        return $this;
+    }
+
     /**
      * A visual identifier that represents this user.
      *
