@@ -6,5 +6,6 @@
         "/vendor/**/tests/**/*",
         "/var/cache/**/*",
         "/vendor/composer/**/*"
-    ]
+    ],
+    "php_code_sniffer.enabled": false
 }
