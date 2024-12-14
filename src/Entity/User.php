@@ -154,45 +154,45 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-//    public function removePortfolio(Portfolio $portfolio): static
-//    {
-//        if ($this->portfolios->removeElement($portfolio)) {
-//            // set the owning side to null (unless already changed)
-//            if ($portfolio->getUserId() === $this) {
-//                $portfolio->setUserId(null);
-//            }
-//        }
-//
-//        return $this;
-//    }
+    //    public function removePortfolio(Portfolio $portfolio): static
+    //    {
+    //        if ($this->portfolios->removeElement($portfolio)) {
+    //            // set the owning side to null (unless already changed)
+    //            if ($portfolio->getUserId() === $this) {
+    //                $portfolio->setUserId(null);
+    //            }
+    //        }
+    //
+    //        return $this;
+    //    }
 
-/**
- * @return Collection<int, Application>
- */
-public function getApplications(): Collection
-{
-    return $this->applications;
-}
-
-public function addApplication(Application $application): static
-{
-    if (!$this->applications->contains($application)) {
-        $this->applications->add($application);
-        $application->setUser($this);
+    /**
+     * @return Collection<int, Application>
+     */
+    public function getApplications(): Collection
+    {
+        return $this->applications;
     }
 
-    return $this;
-}
-
-public function removeApplication(Application $application): static
-{
-    if ($this->applications->removeElement($application)) {
-        // set the owning side to null (unless already changed)
-        if ($application->getUser() === $this) {
-            $application->setUser(null);
+    public function addApplication(Application $application): static
+    {
+        if (!$this->applications->contains($application)) {
+            $this->applications->add($application);
+            $application->setUser($this);
         }
+
+        return $this;
     }
 
-    return $this;
-}
+    public function removeApplication(Application $application): static
+    {
+        if ($this->applications->removeElement($application)) {
+            // set the owning side to null (unless already changed)
+            if ($application->getUser() === $this) {
+                $application->setUser(null);
+            }
+        }
+
+        return $this;
+    }
 }
