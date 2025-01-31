@@ -49,7 +49,6 @@ class Portfolio
 
         return $this;
     }
-
     public function getBalance(): ?float
     {
         return $this->balance;
@@ -68,6 +67,20 @@ class Portfolio
     public function getDepositaries(): Collection
     {
         return $this->depositaries;
+    }
+
+    public function subBalance(float $amount): static
+    {
+        $this->balance -= $amount;
+
+        return $this;
+    }
+
+    public function addBalance(float $amount): static
+    {
+        $this->balance += $amount;
+
+        return $this;
     }
 
     public function addDepositary(Depositary $depositary): static

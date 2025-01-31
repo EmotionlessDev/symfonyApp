@@ -41,6 +41,10 @@ class Application
         return $this->user;
     }
 
+    public function getTotal(): float
+    {
+        return $this->quantity * $this->price;
+    }
     public function setUser(?User $user): static
     {
         $this->user = $user;

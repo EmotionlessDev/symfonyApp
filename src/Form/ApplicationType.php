@@ -20,13 +20,13 @@ class ApplicationType extends AbstractType
         $builder
             ->add('price', NumberType::class)
             ->add('quantity', IntegerType::class)   
-            ->add('user_id', IntegerType::class)
+            ->add('user', IntegerType::class)
+            ->add('stock', IntegerType::class)
             ->add(
                 'action', EnumType::class, [
                     'class' => ActionEnum::class, 
                 ]
-            )
-            ;
+            );
     } 
 
     public function configureOptions(OptionsResolver $resolver): void
