@@ -28,9 +28,19 @@ class Portfolio
     #[ORM\OneToMany(targetEntity: Depositary::class, mappedBy: 'portfolio')]
     private Collection $depositaries;
 
+    /**
+     * @var Collection<int, Application>
+     */
+    #[ORM\OneToMany(targetEntity: Application::class, mappedBy: 'portfolioId')]
+    private Collection $applications;
+
+    #[ORM\Column]
+    private ?int $frozenBalance = null;
+
     public function __construct()
     {
         $this->depositaries = new ArrayCollection();
+        $this->applications = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -99,6 +109,122 @@ class Portfolio
             // set the owning side to null (unless already changed)
             if ($depositary->getPortfolio() === $this) {
                 $depositary->setPortfolio(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Application>
+     */
+    public function getApplications(): Collection
+    {
+        return $this->applications;
+    }
+
+    public function addApplication(Application $application): static
+    {
+        if (!$this->applications->contains($application)) {
+            $this->applications->add($application);
+            $application->setPortfolioId($this);
+        }
+
+        return $this;
+    }
+
+    public function removeApplication(Application $application): static
+    {
+        if ($this->applications->removeElement($application)) {
+            // set the owning side to null (unless already changed)
+            if ($application->getPortfolioId() === $this) {
+                $application->setPortfolioId(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getStockQuantity(Stock $stock): int
+    {
+        $quantity = 0;
+        foreach ($this->depositaries as $depositary) {
+            if ($depositary->getStock() === $stock) {
+                $quantity += $depositary->getQuantity();
+            }
+        }
+
+        return $quantity;
+    }
+
+    public function getFrozenBalance(): ?int
+    {
+        return $this->frozenBalance;
+    }
+
+    public function setFrozenBalance(int $frozenBalance): static
+    {
+        $this->frozenBalance = $frozenBalance;
+
+        return $this;
+    }
+
+    public function subFrozenBalance(int $amount): static
+    {
+        $this->frozenBalance -= $amount;
+
+        return $this;
+    }
+
+    public function addFrozenBalance(int $amount): static
+    {
+        $this->frozenBalance += $amount;
+
+        return $this;
+    }
+
+    public function subStockQuantity(Stock $stock, int $quantity): static
+    {
+        foreach ($this->depositaries as $depositary) {
+            if ($depositary->getStock() === $stock) {
+                $depositary->subQuantity($quantity);
+                break;
+            }
+        }
+
+        return $this;
+    }
+
+    public function addStockQuantity(Stock $stock, int $quantity): static
+    {
+        foreach ($this->depositaries as $depositary) {
+            if ($depositary->getStock() === $stock) {
+                $depositary->addQuantity($quantity);
+                break;
+            }
+        }
+
+        return $this;
+    }
+
+    public function subStockFrozenQuantity(Stock $stock, int $quantity): static
+    {
+        foreach ($this->depositaries as $depositary) {
+            if ($depositary->getStock() === $stock) {
+                $depositary->subFrozenQuantity($quantity);
+                break;
+            }
+        }
+
+        return $this;
+    }
+
+    public function addStockFrozenQuantity(Stock $stock, int $quantity): static
+    {
+        foreach ($this->depositaries as $depositary) {
+            if ($depositary->getStock() === $stock) {
+                $depositary->addFrozenQuantity($quantity);
+                break;
             }
         }
 

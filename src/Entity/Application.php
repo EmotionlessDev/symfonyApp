@@ -14,9 +14,9 @@ class Application
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\ManyToOne(inversedBy: 'applications')]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?User $user = null;
+//    #[ORM\ManyToOne(inversedBy: 'applications')]
+//    #[ORM\JoinColumn(nullable: false)]
+//    private ?User $user = null;
 
     #[ORM\ManyToOne(inversedBy: 'applications')]
     #[ORM\JoinColumn(nullable: false)]
@@ -31,26 +31,30 @@ class Application
     #[ORM\Column(type: 'string', enumType: ActionEnum::class)]
     private ?ActionEnum  $action = null;
 
+    #[ORM\ManyToOne(inversedBy: 'applications')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Portfolio $portfolioId = null;
+
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getUser(): ?User
-    {
-        return $this->user;
-    }
+//    public function getUser(): ?User
+//    {
+//        return $this->user;
+//    }
 
     public function getTotal(): float
     {
         return $this->quantity * $this->price;
     }
-    public function setUser(?User $user): static
-    {
-        $this->user = $user;
-
-        return $this;
-    }
+//    public function setUser(?User $user): static
+//    {
+//        $this->user = $user;
+//
+//        return $this;
+//    }
 
     public function getStock(): ?Stock
     {
@@ -96,6 +100,18 @@ class Application
     public function setAction(ActionEnum $action): static
     {
         $this->action = $action;
+
+        return $this;
+    }
+
+    public function getPortfolioId(): ?Portfolio
+    {
+        return $this->portfolioId;
+    }
+
+    public function setPortfolioId(?Portfolio $portfolioId): static
+    {
+        $this->portfolioId = $portfolioId;
 
         return $this;
     }

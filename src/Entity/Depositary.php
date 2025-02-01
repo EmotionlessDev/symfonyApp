@@ -24,6 +24,9 @@ class Depositary
     #[ORM\Column]
     private ?int $quantity = null;
 
+    #[ORM\Column]
+    private ?int $frozenQuantity = null;
+
     public function __construct()
     {
         $this->quantity = 0;
@@ -66,6 +69,46 @@ class Depositary
     public function setQuantity(int $quantity): static
     {
         $this->quantity = $quantity;
+
+        return $this;
+    }
+
+    public function getFrozenQuantity(): ?int
+    {
+        return $this->frozenQuantity;
+    }
+
+    public function setFrozenQuantity(int $frozenQuantity): static
+    {
+        $this->frozenQuantity = $frozenQuantity;
+
+        return $this;
+    }
+
+    public function addQuantity(int $quantity): static
+    {
+        $this->quantity += $quantity;
+
+        return $this;
+    }
+
+    public function subQuantity(int $quantity): static
+    {
+        $this->quantity -= $quantity;
+
+        return $this;
+    }
+
+    public function addFrozenQuantity(int $quantity): static
+    {
+        $this->frozenQuantity += $quantity;
+
+        return $this;
+    }
+
+    public function subFrozenQuantity(int $quantity): static
+    {
+        $this->frozenQuantity -= $quantity;
 
         return $this;
     }
